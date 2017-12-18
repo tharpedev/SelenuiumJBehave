@@ -18,7 +18,7 @@ public class SimpleSearchSteps {
     protected WebDriver driver;
 
     public SimpleSearchSteps() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\phuta\\AppData\\Roaming\\npm\\node_modules\\protractor\\node_modules\\webdriver-manager\\selenium\\chromedriver_2.34.exe");
+        System.setProperty("webdriver.chrome.driver", "<path to chrome web driver executable>");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
