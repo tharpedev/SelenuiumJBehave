@@ -1,7 +1,7 @@
 Meta:
 @author QASymphony.com
 @categories tabularParam outComes
-@skip
+
 
 
 Narrative:
@@ -12,8 +12,7 @@ So that I can achieve a business goal
 
 Scenario: Find product by price
 Meta:
-@skip
-@ignored false
+
 Given product list:
 |name|price|
 |iPhoneX|1100|

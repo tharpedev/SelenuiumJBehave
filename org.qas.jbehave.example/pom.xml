@@ -46,6 +46,15 @@
             <artifactId>jbehave-plugin-log-collector</artifactId>
             <version>1.3.1</version>
         </dependency>
+        <!-- Support testing web-->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+
+        <!--~Support testing web-->
     </dependencies>
 
     <build>
@@ -98,7 +107,6 @@
                                 <!--<metaFilter>${meta.filter}</metaFilter>-->
                                 <metaFilter>-skip</metaFilter>
                             </metaFilters>
-
                         </configuration>
                         <goals>
                             <goal>run-stories-as-embeddables</goal>
