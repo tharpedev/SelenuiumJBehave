@@ -10,11 +10,12 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.Test;
-import com.qasymphony.qtest.automation.plugin.jbehave.core.LogCollector;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import com.qasymphony.qtest.automation.plugin.jbehave.core.LogCollector;
+
 
 public class PhoneStoreStories extends JUnitStories {
 
@@ -54,13 +55,13 @@ public class PhoneStoreStories extends JUnitStories {
 
     @Override
     @Test
-    public void run() {
-        try {
+    public void run() throws Throwable {
+//        try {
             super.run();
-        } catch (Throwable e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        } catch (Throwable e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
     }
 
 }

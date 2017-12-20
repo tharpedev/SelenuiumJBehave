@@ -6,16 +6,13 @@ import java.util.List;
 import com.qasymphony.qtest.automation.plugin.jbehave.core.LogCollector;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
-import org.jbehave.core.io.CodeLocations;
-import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.LoadFromRelativeFile;
-import org.jbehave.core.io.StoryFinder;
 import org.jbehave.core.junit.JUnitStories;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
-import org.junit.After;
+
 import org.junit.Test;
 import org.qas.jbehave.example.steps.SimpleSearchSteps;
 
@@ -59,13 +56,14 @@ public class SimpleSearchStories extends JUnitStories {
 
     @Override
     @Test
-    public void run() {
-        try {
+    public void run() throws Throwable {
+//        try {
             super.run();
-        } catch (Throwable e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        } catch (Throwable e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            throw e;
+//        }
     }
 
 

@@ -27,15 +27,15 @@ public class PhoneStore {
         return result;
     }
     public ArrayList<PhoneInfo> searchByName(String name) {
-//        ArrayList<PhoneInfo> result = new ArrayList<PhoneInfo>();
-//        for (int i=0; i<this.phoneList.size(); i++) {
-//            PhoneInfo phone = this.phoneList.get(i);
-//            if (StringUtils.containsIgnoreCase(phone.getName(), name)){
-//                result.add(phone);
-//            }
-//        }
-//        return result;
-        return this.phoneList; // demo case failed
+        ArrayList<PhoneInfo> result = new ArrayList<PhoneInfo>();
+        for (int i=0; i<this.phoneList.size(); i++) {
+            PhoneInfo phone = this.phoneList.get(i);
+            if (StringUtils.containsIgnoreCase(phone.getName(), name)){
+                result.add(phone);
+            }
+        }
+        return result;
+//        return this.phoneList; // demo case failed
     }
 }
 
