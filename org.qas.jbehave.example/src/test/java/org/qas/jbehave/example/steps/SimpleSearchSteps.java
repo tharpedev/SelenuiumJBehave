@@ -17,9 +17,8 @@ public class SimpleSearchSteps {
 
     protected WebDriver driver;
 
-    public SimpleSearchSteps() {
-        System.setProperty("webdriver.chrome.driver", "<path to chrome web driver executable>");
-        driver = new ChromeDriver();
+    public SimpleSearchSteps(WebDriver driver) {
+        this.driver = driver;
         driver.manage().window().maximize();
     }
 
@@ -53,8 +52,5 @@ public class SimpleSearchSteps {
         assertThat(driver.getCurrentUrl(), is(url));
     }
 
-    @AfterStory // equivalent to @AfterStory(uponGivenStory=false)
-    public void afterStory() {
-        driver.close();
-    }
+
 }

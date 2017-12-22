@@ -11,13 +11,24 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
+import org.junit.After;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.qas.jbehave.example.Utils.TestUtil;
 import org.qas.jbehave.example.steps.SimpleSearchSteps;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 public class JUnitEmbedder extends Embedder {
+
+    TestUtil testUtil;
+
+    public  JUnitEmbedder(TestUtil testUtil) {
+        this.testUtil = testUtil;
+    }
     @Override
     public EmbedderControls embedderControls() {
         return new EmbedderControls().doIgnoreFailureInStories(true).doIgnoreFailureInView(true);
@@ -34,29 +45,25 @@ public class JUnitEmbedder extends Embedder {
 //                        .withFormats(Format.HTML)
 //                        .withFormats(Format.XML));
 //    }
-public Configuration configuration() {
-    URL storyURL = null;
-    try {
-        String url = "file://" + System.getProperty("user.dir").replace('\\','/');
-        //System.out.println(url);
-        storyURL = new URL(url);
-    } catch (MalformedURLException e) {
-        e.printStackTrace();
+    @Override
+    public Configuration configuration() {
+        return  testUtil.configuration();
     }
-
-    return new MostUsefulConfiguration()
-            .useStoryLoader(new LoadFromRelativeFile(storyURL))
-            .useStoryReporterBuilder(new StoryReporterBuilder()
-                    .withReporters(new LogCollector())
-                    .withFormats(Format.CONSOLE)
-                    .withFormats(Format.HTML)
-                    .withFormats(Format.XML));
-}
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new SimpleSearchSteps());
+        return testUtil.stepsFactory();
     }
 
+
+    @After
+    public void tearDown() throws Exception {
+        testUtil.tearDown();
+    }
+
+    @Override
+    public void runStoriesAsPaths(List<String> storyPaths) {
+        super.runStoriesAsPaths(testUtil.storyPaths());
+    }
 
 }
