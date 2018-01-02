@@ -63,6 +63,7 @@ public class TestUtil{
     public void tearDown() throws Exception {
         if (null != driver) {
             driver.close();
+            driver.quit();
         }
         driver = null;
     }
