@@ -1,0 +1,1 @@
+java -classpath ./* org.junit.runner.JUnitCore org.qas.jbehave.example.junit.JUnitRunner
