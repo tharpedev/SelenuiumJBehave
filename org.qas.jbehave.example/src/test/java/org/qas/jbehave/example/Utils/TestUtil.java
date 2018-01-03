@@ -13,28 +13,29 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.qas.jbehave.example.steps.PhoneStoreSteps;
 import org.qas.jbehave.example.steps.SimpleSearchSteps;
+
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 @Ignore
 public class TestUtil{
 
     WebDriver driver;
+    String chromeDriverPath;
 
     public Configuration configuration() {
         URL storyURL = null;
-//        try {
-            //String url = "file://" + System.getProperty("user.dir").replace('\\','/');
-            //System.out.println(url);
-
-            storyURL = this.getClass().getResource("/org/qas/jbehave/example/stories");
-            //System.out.println(url);
-            //storyURL = new URL("file://" + url);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-
+        try {
+            storyURL = isRunWithJarFile() ? new URL("file://" + System.getProperty("java.io.tmpdir")) : this.getClass().getResource("/org/qas/jbehave/example/stories");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         return new MostUsefulConfiguration().useStoryLoader(new LoadFromRelativeFile(storyURL))
                 .useStoryReporterBuilder(new StoryReporterBuilder()
                         .withReporters(new LogCollector())
@@ -44,12 +45,19 @@ public class TestUtil{
     }
 
     // Here we specify the steps classes
-    public InjectableStepsFactory stepsFactory() {
-        System.setProperty("webdriver.chrome.driver", buildWebDriverPath());
+    public InjectableStepsFactory stepsFactory()  {
+        try {
+            chromeDriverPath = buildWebDriverPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.setProperty("webdriver.chrome.driver", chromeDriverPath);
         driver = new ChromeDriver();
-        return new InstanceStepsFactory(configuration(),
-                new PhoneStoreSteps(),
-                new SimpleSearchSteps(driver));
+
+            return new InstanceStepsFactory(configuration(),
+                    new PhoneStoreSteps(),
+                    new SimpleSearchSteps(driver));
+
     }
 
     //Here we specify the stories
@@ -65,21 +73,76 @@ public class TestUtil{
             driver.close();
             driver.quit();
         }
+        if (isRunWithJarFile() && null != chromeDriverPath) {
+            Files.delete(Paths.get(chromeDriverPath));
+        }
+        chromeDriverPath = null;
         driver = null;
     }
 
-    private String buildWebDriverPath() {
+    private String buildWebDriverPath() throws IOException {
         String osName =  System.getProperty("os.name").toLowerCase();
-        URL url = null;
         System.out.println("Os name: " + osName);
-        String ret = "";
+
+        final HashMap<String, String> mapEntries = new HashMap<>();
+        mapEntries.put("phoneStore.story", "org/qas/jbehave/example/stories/phoneStore.story");
+        mapEntries.put("simpleSearch.story","org/qas/jbehave/example/stories/simpleSearch.story");
+
         if (osName.contains("win")) {
-            url = this.getClass().getResource("/webdriver/windows/chromedriver.exe");
+            mapEntries.put("chromedriver", "webdriver/windows/chromedriver.exe");
         } else if (osName.contains("mac")){
-            url = this.getClass().getResource("/webdriver/mac/chromedriver");
+            mapEntries.put("chromedriver","webdriver/mac/chromedriver");
         } else {
-            url = this.getClass().getResource("/webdriver/linux/chromedriver");
+            mapEntries.put("chromedriver","webdriver/linux/chromedriver");
         }
-        return (null != url) ? url.getPath() : "";
+        String destDir = System.getProperty("java.io.tmpdir");
+        String ret = extractJarFile(destDir, mapEntries);
+        return ret;
+    }
+
+
+    private boolean isRunWithJarFile() {
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        return jarFile.isFile();
+    }
+
+    private String extractJarFile(String destDir, HashMap<String, String> mapEntries) throws IOException {
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        //final File jarFile = new File("C:\\QASProjects\\GitLabs\\jbehave-agent-sample\\org.qas.jbehave.example\\target\\org.fazlan.jbehave.exmaple-1.0-SNAPSHOT-tests.jar");
+
+        if(jarFile.isFile()) {  // Run with JAR file
+            final JarFile jar = new JarFile(jarFile);
+            java.util.Enumeration<java.util.jar.JarEntry> enu = jar.entries();
+            for(Map.Entry<String, String> mapEntry : mapEntries.entrySet()) {
+                String key = mapEntry.getKey();
+                String value = mapEntry.getValue();
+
+                ZipEntry entry = jar.getEntry(value);
+                String tempFile = Paths.get(destDir,key).toString();
+                InputStream in = new BufferedInputStream(jar.getInputStream(entry));
+                OutputStream out = new BufferedOutputStream(new FileOutputStream(tempFile));
+                byte[] buffer = new byte[2048];
+                for (;;)  {
+                    int nBytes = in.read(buffer);
+                    if (nBytes <= 0) break;
+                    out.write(buffer, 0, nBytes);
+                }
+                out.flush();
+                out.close();
+                in.close();
+            }
+            jar.close();
+            return Paths.get(destDir, "chromedriver").toString();
+        } else { // Run with IDE
+            String value = "/" + mapEntries.get("chromedriver");
+
+            URL url = null;
+            try  {
+                url = this.getClass().getResource(value);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return (null != url) ? url.getPath() : "";
+        }
     }
 }

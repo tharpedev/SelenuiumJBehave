@@ -10,7 +10,7 @@
 
     <properties>
         <jbehave.version>4.1.3</jbehave.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.12</junit.version>
         <failsafe.and.surefire.version>2.16</failsafe.and.surefire.version>
         <meta.filter>+author *</meta.filter>
     </properties>
@@ -113,6 +113,27 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
