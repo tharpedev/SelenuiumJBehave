@@ -17,6 +17,7 @@ import org.qas.jbehave.example.steps.SimpleSearchSteps;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -103,13 +104,15 @@ public class TestUtil{
 
 
     private boolean isRunWithJarFile() {
-        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        String path = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        final File jarFile = new File(path);
         return jarFile.isFile();
     }
 
     private String extractJarFile(String destDir, HashMap<String, String> mapEntries) throws IOException {
-        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-        //final File jarFile = new File("C:\\QASProjects\\GitLabs\\jbehave-agent-sample\\org.qas.jbehave.example\\target\\org.fazlan.jbehave.exmaple-1.0-SNAPSHOT-tests.jar");
+        String path = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        final File jarFile = new File(path);
+        //final File jarFile = new File("C:\\QASProjects\\Git Labs\\jbehave-agent-sample\\org.qas.jbehave.example\\target\\org.fazlan.jbehave.exmaple-1.0-SNAPSHOT-tests.jar");
 
         if(jarFile.isFile()) {  // Run with JAR file
             final JarFile jar = new JarFile(jarFile);
@@ -143,7 +146,7 @@ public class TestUtil{
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return (null != url) ? url.getPath() : "";
+            return (null != url) ? URLDecoder.decode(url.getPath()) : "";
         }
     }
 
