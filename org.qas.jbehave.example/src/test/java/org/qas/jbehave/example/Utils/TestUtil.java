@@ -97,6 +97,7 @@ public class TestUtil{
         }
         String destDir = System.getProperty("java.io.tmpdir");
         String ret = extractJarFile(destDir, mapEntries);
+        setExecutableMode(ret);
         return ret;
     }
 
@@ -144,5 +145,14 @@ public class TestUtil{
             }
             return (null != url) ? url.getPath() : "";
         }
+    }
+
+    private void setExecutableMode(String fullFilePath) {
+        File file = new File(fullFilePath);
+        //change permission to 777 for all the users
+        //no option for group and others
+        file.setExecutable(true, false);
+        file.setReadable(true, false);
+        file.setWritable(true, false);
     }
 }
