@@ -29,11 +29,6 @@
             <id>maven.jenkins-ci.org</id>
             <url>https://repo.jenkins-ci.org/releases</url>
         </repository>
-        <!-- <repository>
-            <id>qasymphony-snapshots</id>
-            <name>Qasymphony Snapshot Repository</name>
-            <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </repository> -->
     </repositories>
 
     <dependencies>
