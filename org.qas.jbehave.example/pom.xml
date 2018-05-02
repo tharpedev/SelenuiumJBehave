@@ -21,6 +21,14 @@
             <name>qasymphony-releases</name>
             <url>https://qasymphony.jfrog.io/qasymphony/launch-release-local</url>
         </repository>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </repository>
+        <repository>
+            <id>maven.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/releases</url>
+        </repository>
         <!-- <repository>
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
