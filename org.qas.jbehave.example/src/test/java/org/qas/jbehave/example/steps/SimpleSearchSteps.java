@@ -2,8 +2,6 @@ package org.qas.jbehave.example.steps;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
-import org.jbehave.core.annotations.AfterStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -11,8 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 public class SimpleSearchSteps {
 
     protected WebDriver driver;
@@ -30,7 +26,7 @@ public class SimpleSearchSteps {
 
     @When("I search for \"$term\"")
     public void searchForTerm(final String term) throws InterruptedException {
-        WebElement elem = driver.findElement(By.xpath("//input[@title='Search']"));
+        WebElement elem = driver.findElement(By.xpath("//input[@name='q']"));
         elem.sendKeys(term);
         elem.sendKeys(Keys.ENTER);
     }
@@ -51,6 +47,4 @@ public class SimpleSearchSteps {
     public void pageURLShouldBe(final String url) {
         assertThat(driver.getCurrentUrl(), is(url));
     }
-
-
 }
