@@ -11,7 +11,7 @@
     <properties>
         <jbehave.version>4.1.3</jbehave.version>
         <junit.version>4.12</junit.version>
-        <failsafe.and.surefire.version>2.20.1</failsafe.and.surefire.version>
+        <failsafe.and.surefire.version>3.0.0-M1</failsafe.and.surefire.version>
         <meta.filter>+author *</meta.filter>
     </properties>
 
