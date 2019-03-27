@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.fazlan</groupId>
-    <artifactId>org.fazlan.jbehave.exmaple</artifactId>
+    <artifactId>jbehaveExmaple</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
