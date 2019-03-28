@@ -11,6 +11,7 @@ import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.Ignore;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.qas.jbehave.example.steps.PhoneStoreSteps;
 import org.qas.jbehave.example.steps.SimpleSearchSteps;
 
@@ -53,12 +54,15 @@ public class TestUtil{
             e.printStackTrace();
         }
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-        driver = new ChromeDriver();
+        
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        
+        driver = new ChromeDriver(chromeOptions);
 
-            return new InstanceStepsFactory(configuration(),
-                    new PhoneStoreSteps(),
-                    new SimpleSearchSteps(driver));
-
+        return new InstanceStepsFactory(configuration(),
+                new PhoneStoreSteps(),
+                new SimpleSearchSteps(driver));
     }
 
     //Here we specify the stories
