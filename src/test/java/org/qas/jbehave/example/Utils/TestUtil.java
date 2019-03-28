@@ -35,6 +35,8 @@ public class TestUtil{
         URL storyURL = null;
         try {
             storyURL = isRunWithJarFile() ? new URL("file://" + System.getProperty("java.io.tmpdir")) : this.getClass().getResource("/org/qas/jbehave/example/stories");
+            System.out.println("STORY URL IS: " + storyURL);
+            
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
