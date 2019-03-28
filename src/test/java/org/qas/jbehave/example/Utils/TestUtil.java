@@ -50,6 +50,7 @@ public class TestUtil{
     public InjectableStepsFactory stepsFactory()  {
         try {
             chromeDriverPath = buildWebDriverPath();
+            System.out.println("PATH TO CHROME DRIVER: " + chromeDriverPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +65,8 @@ public class TestUtil{
                 new PhoneStoreSteps(),
                 new SimpleSearchSteps(driver));
     }
+    
+    
 
     //Here we specify the stories
     public List<String> storyPaths() {
@@ -100,6 +103,7 @@ public class TestUtil{
         } else {
             mapEntries.put("chromedriver","webdriver/linux/chromedriver");
         }
+        
         String destDir = System.getProperty("java.io.tmpdir");
         String ret = extractJarFile(destDir, mapEntries);
         setExecutableMode(ret);
